@@ -1,7 +1,10 @@
+import { Button } from "@/components/ui/button";
+
 export default function Home() {
   return (
-    <main className="text-4xl font-bold text-red-500 text-center mt-10">
-      Hello Eman! Tailwind is working 🎉
+    <main className="flex flex-col items-center justify-center h-screen gap-4">
+      <h1 className="text-4xl font-bold text-zinc-900">Welcome to DevBunker 🚀</h1>
+      <Button variant="default">Click Me</Button>
     </main>
-  )
+  );
 }
