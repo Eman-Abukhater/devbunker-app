@@ -5,8 +5,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen bg-[#f9f9fb] flex items-center justify-center px-4">
-      <Card className="w-1/2 max-w-sm border border-gray-200 rounded-xl shadow-md bg-white ">
+    <div className="min-h-screen bg-[#0d0d0d] flex items-center justify-center px-4">
+      <Card className="w-full max-w-md min-h-[500px] p-8 shadow-xl rounded-2xl bg-white border border-gray-200 flex flex-col justify-center">
         <CardHeader>
           <CardTitle className="text-center text-2xl font-semibold text-gray-800 my-10">
             Log in to DevBunker
@@ -26,7 +26,10 @@ export default function LoginPage() {
               Login
             </Button>
             <p className="text-sm text-center text-gray-500 mt-2">
-              Dont have an account? <a href="/register" className="text-blue-600 hover:underline">Register</a>
+              Dont have an account?{" "}
+              <a href="/register" className="text-blue-600 hover:underline">
+                Register
+              </a>
             </p>
           </form>
         </CardContent>
