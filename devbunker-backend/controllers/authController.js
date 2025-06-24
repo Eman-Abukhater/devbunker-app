@@ -1,7 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+require("dotenv").config();
 
-const users = []; // Temporary storage
+const users = []; // Temporary in-memory storage
 
 exports.registerUser = async (req, res) => {
   const { name, email, password } = req.body;
