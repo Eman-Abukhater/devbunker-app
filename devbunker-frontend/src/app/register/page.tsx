@@ -26,10 +26,29 @@ export default function RegisterPage() {
     resolver: zodResolver(registerSchema),
   });
 
-  const onSubmit = (data: RegisterFormData) => {
-    console.log("Register form data:", data);
-    // TODO: Send data to backend API
+  const onSubmit = async (data: RegisterFormData) => {
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/register", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await res.json();
+  
+      if (!res.ok) {
+        alert(result.message || "Registration failed");
+        return;
+      }
+  
+      alert("Registration successful! Please login.");
+      window.location.href = "/login";
+    } catch (err) {
+      console.error("Registration error:", err);
+      alert("Something went wrong. Please try again.");
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 px-4">
