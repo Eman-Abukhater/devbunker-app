@@ -11,7 +11,13 @@ exports.registerUser = async (req, res) => {
   if (userExists) return res.status(400).json({ message: "User already exists" });
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = { id: users.length + 1, name, email, password: hashedPassword, role: "user" };
+  const user = {
+    id: users.length + 1,
+    name,
+    email,
+    password: hashedPassword,
+    role: email === "admin@devbunker.com" ? "admin" : "user", // just for demo
+  };
   users.push(user);
 
   res.status(201).json({ message: "User registered successfully" });
