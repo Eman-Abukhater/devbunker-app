@@ -1,34 +1,51 @@
-"use client";
+'use client';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import Link from 'next/link';
 
 export default function HomePage() {
-  const [role, setRole] = useState("");
+  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
 
   useEffect(() => {
-    const storedRole = localStorage.getItem("role");
-    setRole(storedRole || "");
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      try {
+        setUser(JSON.parse(storedUser));
+      } catch {
+        setUser(null);
+      }
+    }
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+  };
+
   return (
-    <div className="p-6">
-      <h1 className="text-2xl font-bold mb-4">Welcome to DevBunker</h1>
+    <main className="min-h-screen flex flex-col items-center justify-center text-center space-y-6">
+      <h1 className="text-4xl font-bold">Welcome to DevBunker</h1>
 
-      {role === "admin" && (
-        <div className="bg-blue-100 text-blue-800 p-4 rounded-xl">
-           Admin Panel: You can manage tags, categories, and users here.
-        </div>
+      {user ? (
+        <>
+          <p className="text-lg">Hello, <strong>{user.name}</strong> 👋</p>
+          <p className="text-sm text-gray-600">Role: {user.role}</p>
+          <button
+            onClick={handleLogout}
+            className="mt-4 px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+          >
+            Logout
+          </button>
+        </>
+      ) : (
+        <Link
+          href="/login"
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+        >
+          Login
+        </Link>
       )}
-
-      {role === "user" && (
-        <div className="bg-green-100 text-green-800 p-4 rounded-xl">
-           Welcome, user! You can browse and contribute to posts.
-        </div>
-      )}
-
-      {!role && (
-        <div className="text-gray-500">Please login to see role-specific features.</div>
-      )}
-    </div>
+    </main>
   );
 }
