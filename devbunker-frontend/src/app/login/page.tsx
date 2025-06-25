@@ -25,10 +25,33 @@ export default function LoginPage() {
     resolver: zodResolver(loginSchema),
   });
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log("Login data:", data);
-    // TODO: send data to backend
+  const onSubmit = async (data: LoginFormData) => {
+    try {
+      const res = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+  
+      const result = await res.json();
+  
+      if (!res.ok) {
+        alert(result.message || "Login failed");
+        return;
+      }
+  
+      // Store token and role in localStorage
+      localStorage.setItem("token", result.token);
+      localStorage.setItem("role", result.user.role);
+      localStorage.setItem("username", result.user.name);
+  
+      alert(`Welcome ${result.user.name}! You are logged in as ${result.user.role}`);
+      window.location.href = "/"; // redirect to home 
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   };
+  
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-200 px-4">
